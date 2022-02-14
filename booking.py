@@ -4,8 +4,9 @@ class BookingSystem :
 	def __init__(self,person_name,person_email):
 		self.person = person_name
 		self.email = person_email
+		self.ordereditems = []
 		self.wishinghim()
-		self.orderedItems = []
+		
 		
 	def wishinghim(self):
 		print("\n -*-*-*-*-*-*-*-*-*-welcome to kojo restaurant-*-*-*-*-*-*-*-*-*- \n \n hey,"+self.person )
@@ -22,8 +23,68 @@ class BookingSystem :
 			count+=1
 		print("________________________________________________ \n above seen menucard from 'Sno' you can place your order \n exit- type 'E' \n select dishes - type 'S' \n to complete order - press 'K'")
 	def dishSelector(self):
-		waitStillSay = false
+		waitStillSay = True
+		while waitStillSay:
+			customer_decision = input("*****Enter your Choice: ")
+			if customer_decision == "E" or customer_decision == "e" :
+				self.editList()
+			elif customer_decision == "S" or customer_decision == "s" :
+				self.selectDishes()
+			elif customer_decision == "K" or customer_decision == "k" :
+				if self.toCompleteOrder() == True :
+					self.finalSltDishs()
+					waitStillSay = False
+				
+					
+					
+			
+	def editList(self):
+		#Showing ordered Items this codes.
+		for orderItem in self.ordereditems:
+			print(orderItem)
+		print("_______________________________________ \n editor is on \n _______________________________________")
+		editKey = int(input("Enter your want to edit Serial No: "))
+		if editKey <= len(self.ordereditems):
+			print("if you want to delete item type--'D' \n if you want to edit quality of item type-- 'Q'")
+			choice = input("Type your Choice: ")
+			if choice == "D" or choice == "d" :
+				self.ordereditems.pop(editKey-1)
+				print("sucessfully deleted!")
+			if choice == "Q" or choice == "q" :
+				self.ordereditems.pop(editKey-1)
+				print("sucessfully deleted! \n_______________________________________")
+
+	def selectDishes(self):
+		for orderItem in self.ordereditems:
+			print(orderItem)
+		print("_______________________________________ \n Select your Dish \n_______________________________________")
+		sltDishId=int(input("Enter your item Sno : "))
+		if sltDishId <= len(Dishes):
+			selDish = Dishes[sltDishId-1]	
+			quantity = int(input("Enter your Quantity of Dish: "))
+			selDish["Quantity"]= quantity
+			self.ordereditems.append(selDish)
+			print("sucessfully registered \n_______________________________________")
 		
+		else:
+			print("Invalid Item")	
+		
+	def toCompleteOrder(self):
+		print("Are you sure to Complete Orders! \n if want to Complete type --'Y' \n if wish to continue to type--'N'")
+		confirmation = input("Type you decison: ")
+		if confirmation == "Y" or confirmation == "y":
+			print("Orders are registered!")
+			return True
+		if confirmation == "N" or confirmation == "n":
+			return False
+	def finalSltDishs(self):
+		count=0
+		print("________________________________________________ \n Sno --*-- Items--------*-- Price -------*-- Quantity")
+		for orderItem in self.ordereditems:
+			
+			S,Is,Pe,Qy = str(count+1),orderItem["Items"],str(orderItem["Rs"]),str(orderItem["Quantity"])
+			print(" "+S+" --*-- "+Is+"--------*-- "+Pe+"rs -------*-- "+Qy+"-Qty")	
+			count+=1
 
 			
 	
@@ -34,8 +95,8 @@ gateQuestion  = input(" \n type your next step: ")
 if gateQuestion == "y" or gateQuestion == "Y" :
 	print("\n ------------------------------------------")
 	name = input("Enter your sweet name: ")
-	phone  = input("Enter your email id: ")
-	customer = BookingSystem(name,phone)
+	email  = input("Enter your email id: ")
+	customer = BookingSystem(name,email)
 	
 	
 elif gateQuestion == "n" or gateQuestion == "N" :
