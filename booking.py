@@ -1,10 +1,12 @@
 #JSON DATA
-Dishes=[{"Items":"POROTTA","Rs":10},{"Items":"CHAPATTI","Rs":8},{"Items":"IDLY","Rs":5},{"Items":"DOSA" ,"Rs":9},{"Items":"PONGAL","Rs":5},{"Items":"CHICKEN BRIYANI","Rs":100},{"Items":"MUTTON BRIYANI","Rs":150},{"Items":"FISH BRIYANI","Rs":125},{"Items":"CHICKEN TIKKA","Rs":90},{"Items":"FRIED RICE","Rs":100},{"Items":"VEG PULAO","Rs":80},{"Items":"EGG RICE","Rs":70}]
+import json
+
 class BookingSystem :
-	def __init__(self,person_name,person_email):
+	def __init__(self,person_name,person_email,menucard):
 		self.person = person_name
 		self.email = person_email
 		self.ordereditems = []
+		self.Dishes = menucard
 		self.wishinghim()
 		
 		
@@ -18,7 +20,7 @@ class BookingSystem :
 		count=0
 		#table header printing line here 
 		print("________________________________________________ \n Sno --*-- Items--------*-- Price")
-		for Dish in Dishes:
+		for Dish in self.Dishes:
 			print(" ",count+1," --*-- ",Dish["Items"],"--------*-- ",Dish["Rs"])	
 			count+=1
 		print("________________________________________________ \n above seen menucard from 'Sno' you can place your order \n exit- type 'E' \n select dishes - type 'S' \n to complete order - press 'K'")
@@ -59,8 +61,8 @@ class BookingSystem :
 			print(orderItem)
 		print("_______________________________________ \n Select your Dish \n_______________________________________")
 		sltDishId=int(input("Enter your item Sno : "))
-		if sltDishId <= len(Dishes):
-			selDish = Dishes[sltDishId-1]	
+		if sltDishId <= len(self.Dishes):
+			selDish = self.Dishes[sltDishId-1]	
 			quantity = int(input("Enter your Quantity of Dish: "))
 			selDish["Quantity"]= quantity
 			self.ordereditems.append(selDish)
@@ -91,12 +93,13 @@ class BookingSystem :
 print("\n ************Welcome to online booking system************\n \n if you want to order food \n \n *want to order -- type 'y' \n *quit -- type 'n'")
 
 gateQuestion  = input(" \n type your next step: ")
-
+with open('menucard.json') as json_file:
+    Dishes = json.load(json_file)
 if gateQuestion == "y" or gateQuestion == "Y" :
 	print("\n ------------------------------------------")
 	name = input("Enter your sweet name: ")
 	email  = input("Enter your email id: ")
-	customer = BookingSystem(name,email)
+	customer = BookingSystem(name,email,Dishes)
 	
 	
 elif gateQuestion == "n" or gateQuestion == "N" :
