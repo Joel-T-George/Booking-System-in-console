@@ -71,12 +71,8 @@ class BookingSystem :
 			print(orderItem)
 		print("_______________________________________ \n Select your Dish \n_______________________________________")
 
-		try :
-			sltDishId=int(input("Enter your item Sno : "))
-			
-		except ValueError:
-			print("Please enter number not a word!")
-			sltDishId=int(input("Enter your item Sno : "))
+		sltDishId= numInput("Enter your item Sno : ")
+	
 
 		if sltDishId <= len(self.Dishes):
 			selDish = self.Dishes[sltDishId-1]
@@ -154,6 +150,47 @@ class BookingSystem :
 			elif choice == "D" or choice == "d":
 				exit()
 
+
+#error handling codes here
+def strInput(strings):
+	while True:
+		try:
+			val = input(strings)
+			break
+		except ValueError:
+			print("something went wrong")
+		except KeyboardInterrupt:
+			print("You pressed control-c ,you want to quit ? \n\n you want to quit press 'Q' you \n you want continue press 'C'")
+			cho=strInput("enter your next step: ")
+			if cho=="Q" or cho =="q":
+				exit()
+			if cho =="C" or cho =="c":
+				continue
+
+	return val
+
+
+
+
+def numInput(strings):
+	while True:
+		try:
+			val = int(input(strings))
+			break
+		except ValueError:
+			print("Please enter number not a word!")
+		except KeyboardInterrupt:
+			print("You pressed control-c ,you want to quit ? \n\n you want to quit press 'Q' you \n you want continue press 'C'")
+			cho=strInput("enter your next step: ")
+			if cho=="Q" or cho =="q":
+				exit()
+			if cho =="C" or cho =="c":
+				continue
+
+	return val
+
+
+
 # 6 digit number random generate 					
 def genOtp():
 	val =""
@@ -192,11 +229,6 @@ if gateQuestion == "y" or gateQuestion == "Y" :
 elif gateQuestion == "n" or gateQuestion == "N" :
 	exit()
 
-#emergency quit show off..
-try:
-	raise KeyboardInterrupt
-finally:
-	print('Thankyou for emergency exiting')
 
 
 
